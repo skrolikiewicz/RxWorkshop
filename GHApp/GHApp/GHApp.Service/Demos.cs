@@ -43,10 +43,19 @@ namespace GHApp.Service
 
         public void Demo3()
         {
-            _userSearchService.FindUser("gregj").Subscribe(
+            var namesToLook = new Subject<string>();
+            namesToLook
+                .Select(partialName => _userSearchService.FindUser(partialName))
+                .Switch()
+                .Subscribe(r => Console.WriteLine(string.Join(",", r.Select(c => c.Name))));
+
+            namesToLook.OnNext("a");
+            Console.ReadKey();
+            namesToLook.OnNext("b");
+           /* _userSearchService.FindUser("gregj").Subscribe(
                 p => Console.WriteLine("Found {0}", p.Count()),
                 err => Console.WriteLine("Error!"),
-                () => Console.WriteLine("All Done!"));
+                () => Console.WriteLine("All Done!"));*/
         }
 
         public void RepoWatcherComponentDemo()

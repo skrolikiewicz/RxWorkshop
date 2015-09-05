@@ -37,6 +37,7 @@ namespace GHApp.Service
                 .Subscribe(publisher);
 
             var demos = new Demos();
+            demos.Demo3();
             demos.WatchRepoDemo();
         }
 
